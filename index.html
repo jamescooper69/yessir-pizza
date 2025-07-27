@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yessir Pizza - Delicious Pizza Delivered Hot in Under 30 Minutes</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .pizza-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .pizza-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #ff6b6b, #ff5252);
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #ff5252, #ff1744);
+            transform: translateY(-2px);
+        }
+
+        .hero-bg {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ff8a80 100%);
+        }
+
+        .modal-backdrop {
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+        }
+
+        .pizza-placeholder {
+            background: linear-gradient(45deg, #ff6b6b, #ffab91);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes bounce {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        .animate-spin {
+            animation: spin 1s linear infinite;
+        }
+
+        .animate-bounce {
+            animation: bounce 1s ease-in-out infinite;
+        }
+
+        .animate-pulse {
+            animation: pulse 2s ease-in-out infinite;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="bg-white shadow-lg sticky top-0 z-40">
+        <nav class="container mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-pizza-slice text-3xl text-red-500"></i>
+                    <h1 class="text-2xl font-bold text-gray-800">Yessir Pizza</h1>
+                </div>
+                <div class="hidden md:flex items-center space-x-6">
+                    <a href="#home" class="text-gray-700 hover:text-red-500 transition-colors">Home</a>
+                    <a href="#menu" class="text-gray-700 hover:text-red-500 transition-colors">Menu</a>
+                    <a href="#about" class="text-gray-700 hover:text-red-500 transition-colors">About</a>
+                    <a href="#contact" class="text-gray-700 hover:text-red-500 transition-colors">Contact</a>
+                </div>
+                <button class="md:hidden text-gray-700">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-bg text-white py-20">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-5xl md:text-6xl font-bold mb-6">Yessir Pizza</h2>
+            <p class="text-xl md:text-2xl mb-8 max-w-2xl mx-auto">Delicious pizza delivered hot to your door in under 30
+                minutes. Fresh, never cold, always delicious!</p>
+            <div class="flex flex-col md:flex-row justify-center items-center space-y-4 md:space-y-0 md:space-x-8 mb-8">
+                <div class="flex items-center">
+                    <i class="fas fa-clock text-2xl mr-3"></i>
+                    <span class="text-lg">Under 30 minutes</span>
+                </div>
+                <div class="flex items-center">
+                    <i class="fas fa-fire text-2xl mr-3"></i>
+                    <span class="text-lg">Always Hot</span>
+                </div>
+                <div class="flex items-center">
+                    <i class="fas fa-heart text-2xl mr-3"></i>
+                    <span class="text-lg">Delicious Every Time</span>
+                </div>
+            </div>
+            <a href="#menu"
+                class="btn-primary text-white px-8 py-4 rounded-full text-lg font-semibold hover:shadow-lg transition-all">
+                Order Now <i class="fas fa-arrow-right ml-2"></i>
+            </a>
+        </div>
+    </section>
+
+    <!-- Menu Section -->
+    <section id="menu" class="py-20">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h3 class="text-4xl font-bold text-gray-800 mb-4">Our Delicious Pizzas</h3>
+                <p class="text-xl text-gray-600">Choose from our signature pizza collection</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+
+                <!-- Pizza 1 -->
+                <div class="pizza-card bg-white rounded-lg shadow-lg overflow-hidden">
+                    <img src="pizza1.jpg" alt="Margherita Classic Pizza" class="w-full h-64 object-cover">
+                    <div class="p-6">
+                        <h4 class="text-2xl font-bold text-gray-800 mb-2">Margherita Classic</h4>
+                        <p class="text-gray-600 mb-4">Fresh mozzarella, basil, and our signature tomato sauce on a
+                            crispy thin crust</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-3xl font-bold text-red-500">$12.99</span>
+                            <button onclick="orderPizza('Margherita Classic', 12.99)"
+                                class="btn-primary text-white px-6 py-2 rounded-full hover:shadow-lg transition-all">
+                                Order Now
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pizza 2 -->
+                <div class="pizza-card bg-white rounded-lg shadow-lg overflow-hidden">
+                    <img src="pizza2.jpg" alt="Pepperoni Supreme Pizza" class="w-full h-64 object-cover">
+                    <div class="p-6">
+                        <h4 class="text-2xl font-bold text-gray-800 mb-2">Pepperoni Supreme</h4>
+                        <p class="text-gray-600 mb-4">Premium pepperoni, mozzarella cheese, and our special pizza sauce
+                        </p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-3xl font-bold text-red-500">$15.99</span>
+                            <button onclick="orderPizza('Pepperoni Supreme', 15.99)"
+                                class="btn-primary text-white px-6 py-2 rounded-full hover:shadow-lg transition-all">
+                                Order Now
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pizza 3 -->
+                <div class="pizza-card bg-white rounded-lg shadow-lg overflow-hidden">
+                    <img src="pizza3.jpg" alt="Meat Lovers Deluxe Pizza" class="w-full h-64 object-cover">
+                    <div class="p-6">
+                        <h4 class="text-2xl font-bold text-gray-800 mb-2">Meat Lovers Deluxe</h4>
+                        <p class="text-gray-600 mb-4">Pepperoni, Italian sausage, bacon, and ham with extra cheese</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-3xl font-bold text-red-500">$18.99</span>
+                            <button onclick="orderPizza('Meat Lovers Deluxe', 18.99)"
+                                class="btn-primary text-white px-6 py-2 rounded-full hover:shadow-lg transition-all">
+                                Order Now
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pizza 4 -->
+                <div class="pizza-card bg-white rounded-lg shadow-lg overflow-hidden">
+                    <img src="pizza4.jpg" alt="Veggie Garden Pizza" class="w-full h-64 object-cover">
+                    <div class="p-6">
+                        <h4 class="text-2xl font-bold text-gray-800 mb-2">Veggie Garden</h4>
+                        <p class="text-gray-600 mb-4">Bell peppers, mushrooms, onions, olives, and fresh tomatoes</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-3xl font-bold text-red-500">$14.99</span>
+                            <button onclick="orderPizza('Veggie Garden', 14.99)"
+                                class="btn-primary text-white px-6 py-2 rounded-full hover:shadow-lg transition-all">
+                                Order Now
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pizza 5 -->
+                <div class="pizza-card bg-white rounded-lg shadow-lg overflow-hidden">
+                    <img src="pizza5.jpg" alt="BBQ Chicken Ranch Pizza" class="w-full h-64 object-cover">
+                    <div class="p-6">
+                        <h4 class="text-2xl font-bold text-gray-800 mb-2">BBQ Chicken Ranch</h4>
+                        <p class="text-gray-600 mb-4">Grilled chicken, BBQ sauce, red onions, and ranch dressing</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-3xl font-bold text-red-500">$16.99</span>
+                            <button onclick="orderPizza('BBQ Chicken Ranch', 16.99)"
+                                class="btn-primary text-white px-6 py-2 rounded-full hover:shadow-lg transition-all">
+                                Order Now
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- Promotional Card -->
+                <!-- Enhanced Promotional Card -->
+                <div
+                    class="pizza-card bg-gradient-to-br from-red-600 via-orange-500 to-yellow-400 rounded-2xl shadow-xl overflow-hidden text-white hover:scale-[1.02] transition-transform duration-300">
+                    <div class="p-6 h-full flex flex-col justify-center text-center">
+                        <i class="fas fa-fire text-5xl mb-4 text-yellow-200 drop-shadow-md"></i>
+                        <h4 class="text-3xl font-extrabold mb-2 drop-shadow-sm">🔥 Hot Deal!</h4>
+                        <p class="mb-4 text-lg font-medium">Order any 2
+                                pizzas and get <strong class="text-yellow-100">free delivery</strong>!</p>
+                        <div class="text-sm text-white/80 italic">*Delivery under 30 minutes guaranteed</div>
+                    </div>
+                </div>
+
+                <!-- <div
+                    class="pizza-card bg-gradient-to-br from-yellow-400 to-orange-500 rounded-lg shadow-lg overflow-hidden text-white">
+                    <div class="p-6 h-full flex flex-col justify-center text-center">
+                        <i class="fas fa-fire text-4xl mb-4"></i>
+                        <h4 class="text-2xl font-bold mb-2">Hot Deal!</h4>
+                        <p class="mb-4">Order any 2 pizzas and get free delivery!</p>
+                        <div class="text-sm opacity-90">*Delivery under 30 minutes guaranteed</div>
+                    </div>
+                </div> -->
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="bg-white py-20">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h3 class="text-4xl font-bold text-gray-800 mb-4">Why Choose Yessir Pizza?</h3>
+                <p class="text-xl text-gray-600">We're committed to delivering the best pizza experience</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+                <div class="text-center">
+                    <div class="bg-red-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-clock text-3xl text-red-500"></i>
+                    </div>
+                    <h4 class="text-xl font-semibold mb-3">Fast Delivery</h4>
+                    <p class="text-gray-600">Your pizza arrives hot and fresh in under 30 minutes, guaranteed!</p>
+                </div>
+
+                <div class="text-center">
+                    <div class="bg-red-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-fire text-3xl text-red-500"></i>
+                    </div>
+                    <h4 class="text-xl font-semibold mb-3">Always Hot</h4>
+                    <p class="text-gray-600">Our special delivery bags ensure your pizza is never cold when it reaches
+                        you.</p>
+                </div>
+
+                <div class="text-center">
+                    <div class="bg-red-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-heart text-3xl text-red-500"></i>
+                    </div>
+                    <h4 class="text-xl font-semibold mb-3">Delicious</h4>
+                    <p class="text-gray-600">Made with the finest ingredients and our secret recipes for unmatched
+                        taste.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="bg-gray-100 py-20">
+        <div class="container mx-auto px-4 text-center">
+            <h3 class="text-4xl font-bold text-gray-800 mb-4">Get In Touch</h3>
+            <p class="text-xl text-gray-600 mb-8">Questions? We're here to help!</p>
+
+            <div class="flex flex-col md:flex-row justify-center items-center space-y-4 md:space-y-0 md:space-x-8">
+                <div class="flex items-center">
+                    <i class="fas fa-phone text-xl text-red-500 mr-3"></i>
+                    <span class="text-lg">Coming soon</span>
+                </div>
+                <div class="flex items-center">
+                    <i class="fas fa-envelope text-xl text-red-500 mr-3"></i>
+                    <span class="text-lg">Coming soon</span>
+                </div>
+                <div class="flex items-center">
+                    <i class="fas fa-map-marker-alt text-xl text-red-500 mr-3"></i>
+                    <span class="text-lg">Not listed</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center space-x-2 mb-4">
+                        <i class="fas fa-pizza-slice text-2xl text-red-500"></i>
+                        <h5 class="text-xl font-bold">Yessir Pizza</h5>
+                    </div>
+                    <p class="text-gray-300">Delivering delicious, hot pizza in under 30 minutes since 2024.</p>
+                </div>
+
+                <div>
+                    <h5 class="text-lg font-semibold mb-4">Quick Links</h5>
+                    <ul class="space-y-2">
+                        <li><a href="#home" class="text-gray-300 hover:text-white transition-colors">Home</a></li>
+                        <li><a href="#menu" class="text-gray-300 hover:text-white transition-colors">Menu</a></li>
+                        <li><a href="#about" class="text-gray-300 hover:text-white transition-colors">About</a></li>
+                        <li><a href="#contact" class="text-gray-300 hover:text-white transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h5 class="text-lg font-semibold mb-4">Hours</h5>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>Monday - Thursday: 11am - 11pm</li>
+                        <li>Friday - Saturday: 11am - 12am</li>
+                        <li>Sunday: 12pm - 10pm</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h5 class="text-lg font-semibold mb-4">Follow Us</h5>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-300 hover:text-white transition-colors">
+                            <i class="fab fa-facebook text-2xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-300 hover:text-white transition-colors">
+                            <i class="fab fa-instagram text-2xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-300 hover:text-white transition-colors">
+                            <i class="fab fa-twitter text-2xl"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-700 pt-8 mt-8 text-center">
+                <p class="text-gray-300">&copy; 2025 Yessir Pizza. All rights reserved. | Delivered hot in under 30
+                    minutes!</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Step 1: Name Entry Modal -->
+    <div id="nameModal" class="fixed inset-0 modal-backdrop hidden items-center justify-center z-50">
+        <div class="bg-white rounded-lg p-8 max-w-md mx-4 transform scale-95 transition-all duration-300">
+            <div class="text-center">
+                <div class="bg-red-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-pizza-slice text-3xl text-red-500"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-gray-800 mb-4">Almost There!</h3>
+                <div id="selectedPizzaDetails" class="bg-gray-50 rounded-lg p-4 mb-6">
+                    <div class="text-lg font-semibold text-gray-800" id="selectedPizzaName"></div>
+                    <div class="text-2xl font-bold text-red-500" id="selectedPizzaPrice"></div>
+                </div>
+                <div class="mb-6">
+                    <label for="customerName" class="block text-left text-gray-700 font-semibold mb-2">Enter Your
+                        Name:</label>
+                    <input type="text" id="customerName" placeholder="Your full name"
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent outline-none">
+                </div>
+                <div class="flex space-x-4">
+                    <button onclick="closeNameModal()"
+                        class="flex-1 bg-gray-300 text-gray-700 px-6 py-3 rounded-full hover:bg-gray-400 transition-all">
+                        Cancel
+                    </button>
+                    <button onclick="confirmOrder()"
+                        class="flex-1 btn-primary text-white px-6 py-3 rounded-full hover:shadow-lg transition-all">
+                        Confirm Order
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Step 2: Loading Modal -->
+    <div id="loadingModal" class="fixed inset-0 modal-backdrop hidden items-center justify-center z-50">
+        <div class="bg-white rounded-lg p-8 max-w-md mx-4 text-center">
+            <div class="mb-6">
+                <!-- Premium Loading Spinner -->
+                <div class="relative inline-flex">
+                    <div class="w-20 h-20 border-4 border-red-200 border-t-red-500 rounded-full animate-spin"></div>
+                    <div class="absolute inset-0 flex items-center justify-center">
+                        <i class="fas fa-pizza-slice text-red-500 text-2xl animate-pulse"></i>
+                    </div>
+                </div>
+            </div>
+            <h3 class="text-2xl font-bold text-gray-800 mb-2">Processing Your Order...</h3>
+            <p class="text-gray-600 mb-4">We're preparing your delicious pizza!</p>
+            <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                <div class="flex items-center justify-center space-x-2 text-blue-800">
+                    <i class="fas fa-fire animate-bounce"></i>
+                    <span class="font-semibold">Our chefs are working their magic!</span>
+                    <i class="fas fa-fire animate-bounce"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Order Confirmation Modal -->
+    <div id="orderModal" class="fixed inset-0 modal-backdrop hidden items-center justify-center z-50">
+        <div class="bg-white rounded-lg p-8 max-w-md mx-4 transform scale-95 transition-all duration-300"
+            id="modalContent">
+            <div class="text-center">
+                <div class="bg-green-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-check text-3xl text-green-500"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-gray-800 mb-4">Order Complete!</h3>
+                <div id="orderDetails" class="text-gray-600 mb-6"></div>
+                <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-6">
+                    <div class="flex items-center justify-center space-x-2 text-yellow-800">
+                        <i class="fas fa-clock"></i>
+                        <span class="font-semibold">Your pizza will arrive in under 30 minutes!</span>
+                    </div>
+                    <p class="text-sm text-yellow-700 mt-2">Hot, fresh, and delicious - guaranteed!</p>
+                </div>
+                <button onclick="closeModal()"
+                    class="btn-primary text-white px-8 py-3 rounded-full hover:shadow-lg transition-all">
+                    Awesome! <i class="fas fa-thumbs-up ml-2"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let selectedPizza = {};
+
+        // Step 1: Show name entry modal
+        function orderPizza(name, price) {
+            selectedPizza = { name, price };
+            document.getElementById('selectedPizzaName').textContent = name;
+            document.getElementById('selectedPizzaPrice').textContent = `$${price.toFixed(2)}`;
+            document.getElementById('customerName').value = '';
+            document.getElementById('nameModal').classList.remove('hidden');
+            document.getElementById('nameModal').classList.add('flex');
+        }
+
+        // Close name modal
+        function closeNameModal() {
+            document.getElementById('nameModal').classList.add('hidden');
+            document.getElementById('nameModal').classList.remove('flex');
+        }
+
+        // Step 2: Show loading and then complete order
+        function confirmOrder() {
+            const customerName = document.getElementById('customerName').value.trim();
+
+            if (!customerName) {
+                alert('Please enter your name to continue!');
+                return;
+            }
+
+            // Close name modal
+            closeNameModal();
+
+            // Show loading modal
+            document.getElementById('loadingModal').classList.remove('hidden');
+            document.getElementById('loadingModal').classList.add('flex');
+
+            // Simulate processing time (3 seconds)
+            setTimeout(() => {
+                // Hide loading modal
+                document.getElementById('loadingModal').classList.add('hidden');
+                document.getElementById('loadingModal').classList.remove('flex');
+
+                // Show final confirmation modal
+                document.getElementById('orderDetails').innerHTML = `
+            <div class="mb-4">
+                <p class="font-semibold text-gray-800">Thank you, ${customerName}!</p>
+                <p class="text-lg">${selectedPizza.name}</p>
+                <p class="text-xl font-bold text-green-600">$${selectedPizza.price.toFixed(2)}</p>
+            </div>
+        `;
+
+                document.getElementById('orderModal').classList.remove('hidden');
+                document.getElementById('orderModal').classList.add('flex');
+                document.getElementById('modalContent').classList.remove('scale-95');
+                document.getElementById('modalContent').classList.add('scale-100');
+            }, 5000); // 3 second loading time
+        }
+
+        // Close final modal (keep existing function)
+        function closeModal() {
+            const modal = document.getElementById('orderModal');
+            const modalContent = document.getElementById('modalContent');
+
+            modalContent.classList.remove('scale-100');
+            modalContent.classList.add('scale-95');
+
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }, 300);
+        }
+    </script>
+</body>
+
+</html>
